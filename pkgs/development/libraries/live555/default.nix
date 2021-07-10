@@ -25,12 +25,12 @@ stdenv.mkDerivation rec {
 
   configurePhase = ''
     runHook preConfigure
-
+    export CROSS_COMPILE=${stdenv.cc.targetPrefix}
     ./genMakefiles ${{
       x86_64-darwin = "macosx";
       i686-linux = "linux";
       x86_64-linux = "linux-64bit";
-      aarch64-linux = "linux-64bit";
+      aarch64-linux = "armlinux";
     }.${stdenv.hostPlatform.system}}
 
     runHook postConfigure
@@ -58,6 +58,5 @@ stdenv.mkDerivation rec {
     changelog = "http://www.live555.com/liveMedia/public/changelog.txt";
     license = licenses.lgpl21Plus;
     platforms = platforms.unix;
-    broken = stdenv.hostPlatform.isAarch64;
   };
 }
